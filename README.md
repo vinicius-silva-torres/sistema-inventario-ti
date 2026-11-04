@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 Sistema de Inventário de TI
 
 📋 Sobre o projeto
@@ -112,7 +112,3 @@ Comparar a implementação com banco de dados relacional e não relacional
 👨‍💻 Autor
 
 Vinicius Torres
-=======
-# sistema-inventario-ti
-Seu projeto de portfólio, com Node.js, Express e MySQL.
->>>>>>> 1b725f4890f4bbfc2d39527b626c5a9d1f0fa073
