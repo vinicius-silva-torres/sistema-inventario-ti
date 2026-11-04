@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>Inventário de TI</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+
+<body>
+
+    
+    <section id="cabecalho">
+    <img id="logo" src="https://upload.wikimedia.org/wikipedia/commons/6/69/Baybayin_N.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original">
+
+    <h1>Nexus +</h1>
+    </section>
+
+    <aside id="navegacaomobile">
+        <nav>
+            <a href="#inventario">Inventário</a>
+            <a href="#chamados">Chamados</a>
+            <a href="#funcionarios">Funcionários</a>
+            <a href="#cadastrar">Cadastrar</a>
+        </nav>
+    </aside>
+
+    <div class="layout">
+    
+ <aside id="navegacaopc">
+        <nav>
+            <a href="#inventario">Inventário</a>
+            <a href="#chamados">Chamados</a>
+            <a href="#funcionarios">Funcionários</a>
+            <a href="#cadastrar">Cadastrar</a>
+        </nav>
+    </aside>
+
+    <main>
+
+         <h1>Sistema de Gestão de Ativos</h1>
+
+         <section class="equipamentoscss">
+
+    <label for="buscarEquipamentos">Buscar Equipamentos:</label>
+
+    <input id="buscarEquipamentos" type="text" placeholder="Digite patrimônio, marca, modelo...">
+
+
+    <select id="selecaodisponivel">
+        <option value="">Todos</option>
+        <option value="Em manutenção">Em manutenção</option>
+        <option value="Em uso">Em uso</option>
+        <option value="Disponível">Disponível</option>
+    </select>
+
+    <select id="selecaomarca">
+        <option value="">Todos os Modelos</option>
+        <option>Dell</option>
+        <option>LG</option>
+        <option>Acer</option>
+        <option>HP</option>
+
+    </select>
+
+    </section>
+
+      <div id="equipamento"></div>
+      <div id="paginacao"></div>
+
+      </section>
+
+   <script src="./script.js">
+    
+</script>
+
+
+
+
+   
+<h2>Cadastrar equipamento</h2>
+
+<form id="formularioequipamento">
+    <label for="patrimonio">Patrimônio:</label>
+    <input type="text" id="patrimonio" required>
+
+
+    <label for="tipo">Tipo:</label>
+    <input type="text" id="tipo" required>
+
+    
+
+    <label for="marca">Marca:</label>
+    <input type="text" id="marca">
+
+
+    <label for="modelo">Modelo:</label>
+    <input type="text" id="modelo">
+
+
+    <label for="numero_serie">Número de série:</label>
+    <input type="text" id="numero_serie">
+
+    <label for="status">Status:</label>
+    <select id="status" required>
+        <option value="Disponível">Disponível</option>
+        <option value="Em manutenção">Em manutenção</option>
+        <option value="Em uso">Em uso</option>
+    </select>
+
+
+    <label for="localizacao">Localização:</label>
+    <input type="text" id="localizacao">
+
+
+    <button type="submit">Cadastrar equipamento</button>
+
+    <p id="mensagemformulario"></p>
+
+</form>
+
+    <script>
+
+        const mensagemformulario = document.getElementById('mensagemformulario')
+        let equipamentoEditandoId = null;
+
+    const formulario = document.getElementById('formularioequipamento');
+         console.log(formulario);
+          formulario.addEventListener('submit', function(evento) {
+
+                evento.preventDefault();
+
+        const campoPatrimonio = document.getElementById('patrimonio').value
+        const tipo = document.getElementById('tipo').value
+        const marca = document.getElementById('marca').value
+        const modelo = document.getElementById('modelo').value
+        const numero_serie = document.getElementById('numero_serie').value
+        const status = document.getElementById('status').value
+        const localizacao = document.getElementById('localizacao').value
+
+        console.log(campoPatrimonio, tipo, marca, modelo, numero_serie, status, localizacao);
+
+        
+    const CadastrarNovoEquipamento = {
+
+    patrimonio: campoPatrimonio,
+    tipo: tipo,
+    marca: marca,
+    modelo: modelo,
+    numero_serie: numero_serie,
+    status: status,
+    localizacao: localizacao,
+
+    }
+    console.log(CadastrarNovoEquipamento);
+
+    let endereco = 'http://localhost:3000/api/equipamentos';
+    let metodo = 'POST';
+    if (equipamentoEditandoId !== null) {
+
+         endereco = `http://localhost:3000/api/equipamentos/${equipamentoEditandoId}`;
+         metodo = 'PUT';
+
+    }
+
+fetch(endereco, {
+    method: metodo,
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(CadastrarNovoEquipamento)
+})
+.then(resposta => {
+    if (!resposta.ok) {
+        throw new Error('Não foi possível cadastrar o equipamento.');
+    }
+
+    return resposta.json();
+})
+.then(dados => {
+    mensagemformulario.textContent = 'Equipamento cadastrado com sucesso!';
+    mensagemformulario.className = 'sucesso';
+
+    carregarEquipamentos();
+    formulario.reset();
+})
+.catch(erro => {
+    mensagemformulario.textContent = erro.message;
+    mensagemformulario.className = 'erro';
+
+    console.error('Erro ao cadastrar:', erro);
+});
+});
+
+     
+
+    </script>
+
+   
+
+    </div>
+
+</main>
+
+</body>
+
+
+
+
+
+
+
+
+</html>
